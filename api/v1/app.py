@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """File containing view functions"""
-from flask import Flask, Blurprint, render_template
-from models.file_storage import FileStorage
+from flask import Flask, Blueprint, render_template
+from models import FileStorage
 import os, json
 from api.v1.views import app_views
 
@@ -12,11 +12,12 @@ app.register_blueprint('app_views')
 
 @app.teardown_appcontext
 def storage_close():
-    models.storage.close()
-
+    """Closes storage from models"""
+    return models.storage.close()
 
 @app.route("/states", methods=["GET"])
 def get_states():
+    """Returns json form of states"""
     return jsonify({"states": states})
 
 if __name__ == "__main__":
